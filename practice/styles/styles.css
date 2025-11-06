@@ -1,0 +1,13 @@
+body {
+    background-color:hotpink;
+}
+.mainheader {
+    font: bold;
+    color: black;
+    font-size: large;
+
+}
+
+.mainheader a {
+    color: black;
+}

@@ -1,0 +1,154 @@
+/* ===== GLOBAL STYLES ===== */
+body {
+  margin: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #d3d3d3, #001f3f);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.container {
+  text-align: center;
+}
+
+/* ===== HEADER SECTION ===== */
+.header {
+  padding: 20px 0;
+}
+
+.header-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 150px;
+  background-image: url('../images/icenter.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  color: white;
+}
+
+.header-image h1 {
+  margin: 0;
+  font-size: 3.5em;
+  font-weight: bold;
+  line-height: 0.9;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.33);
+}
+
+/* ===== MAIN CONTENT ===== */
+.content-box {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+  min-height: 400px;
+  margin: 30px auto;
+  padding: 40px;
+  background-color: white;
+  box-shadow: 5px 5px 0px black;
+}
+
+/* ===== TABLE STYLES ===== */
+.content-box table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.content-box th {
+  background-color: #001f3f;
+  color: white;
+  padding: 15px 12px;
+  text-align: left;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 3px solid gold;
+}
+
+.content-box td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  transition: background-color 0.2s ease;
+}
+
+.content-box tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.content-box tr:nth-child(odd) {
+  background-color: white;
+}
+
+.content-box tr:hover {
+  background-color: #e8f4f8;
+  transform: translateY(-1px);
+}
+
+.content-box tr:first-child:hover {
+  background-color: #001f3f;
+  transform: none;
+}
+
+/* ===== NEW DEVOTIONAL CIRCLE ===== */
+.new_devo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10em;
+  height: 3em;
+  margin: 0 auto;
+  background-color: #001f3f;
+  border-radius: 50%;
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+}
+
+/* ===== FORM STYLES ===== */
+.form {
+  display: grid;
+  max-height: 100%;
+}
+
+.form label {
+  display: block;
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+.form input {
+  background-color: gold;
+  color: black;
+}
+
+.form input::placeholder {
+  color: black;
+  opacity: 0.8;
+}
+
+.form button {
+  max-width: 30%;
+  margin: 5px auto;
+  padding: 10px 20px;
+  background-color: #001f3f;
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: large;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form button:hover {
+  transform: scale(1.2);
+  color: gold;
+}

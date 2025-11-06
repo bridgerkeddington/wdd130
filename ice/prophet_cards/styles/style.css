@@ -1,0 +1,59 @@
+body {
+    background-color: #ffecd7
+}
+
+
+.card {
+    background-color: #008d81;
+    border: 5px solid #004e63;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    max-width: fit-content;
+    max-height: fit-content;
+    padding: 1em;
+    padding-top: 2px;
+    align-items: center;
+    margin: 2.2em auto;
+}
+
+.header {
+   line-height: .2em; 
+   text-align: center;
+   font-size: 20px;
+}
+
+h1 {
+    line-height: normal;
+    color: #fffffe;
+    font-family: Helvetica, Arial, sans-serif;
+
+}
+
+.subtitle a {
+  display: block;
+  text-decoration: none;
+  color: #91e4fb;
+  font-family: Helvetica, sans-serif;
+  line-height: 1.2em;
+}
+
+img {
+    margin-top: 1.5em;
+    border: 5px solid white;
+}
+
+.list {
+    color: #fffffe;
+    font-family: Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 2em;
+}
+
+.footer {
+    line-height: .2em;
+    text-align: center;
+    color: #ffd783;
+    font-family: "Nanum Brush Script", sans-serif;
+    font-size: 1.2em;
+}
