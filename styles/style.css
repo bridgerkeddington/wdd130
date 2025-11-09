@@ -122,7 +122,7 @@ p {
     color: white;
     text-align: center;
     padding: 60px 20px;
-    font-size: 3rem;
+    font-size: 2rem;
     margin: 0;
 }
 
@@ -151,6 +151,91 @@ p {
 }
 
 
+
+
+.status-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+
+}
+
+.status-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    border: #3d5a80 2px solid;
+}
+
+.status-table th, .status-table td {
+    padding: 15px;
+    text-align: center;
+    vertical-align: middle;
+    border: 2px solid #3d5a80;
+}
+
+.status-table th {
+    background-color: #3d5a80;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-table td {
+    background-color: #5b8db8;
+}
+
+.form-section {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+    text-align: center;
+    color: #3d5a80;
+    margin-bottom: 30px;
+}
+
+.form-section label {
+    display: block;
+    margin: 15px 0 5px;
+    color: #333;
+    font-weight: 600;
+}
+
+.form-section input, .form-section textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.form-section input:focus,
+.form-section textarea:focus {
+    outline: none;
+    border-color: #5b8db8;
+}
+
+.form-section button {
+    background-color: #3d5a80;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-section button:hover {
+    background-color: #5b8db8;
+}
 @media (max-width: 768px) {
     body {
         padding-top: 150px;
