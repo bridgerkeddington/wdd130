@@ -245,48 +245,91 @@
         );
 
         const Gallery = () => {
+            const [currentPage, setCurrentPage] = useState(1);
+            const itemsPerPage = 6;
+
             const photos = [
-                "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=80"
+                "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=100",
+                "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=100"
             ];
+
+            const totalPages = Math.ceil(photos.length / itemsPerPage);
+            const currentPhotos = photos.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+            const nextPage = () => {
+                if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
+            };
+
+            const prevPage = () => {
+                if (currentPage > 1) setCurrentPage(prev => prev - 1);
+            };
+
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [currentPage]);
 
             return (
                 <div className="pt-32 pb-20 px-6 max-w-6xl mx-auto">
                     <FadeInWhenVisible>
                         <h2 className="text-4xl font-bold text-white text-center mb-12 drop-shadow-md">Photo Gallery</h2>
                     </FadeInWhenVisible>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {photos.map((photo, index) => (
-                            <FadeInWhenVisible key={index} delay={index * 100}>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                        {currentPhotos.map((photo, index) => (
+                            <FadeInWhenVisible key={`${currentPage}-${index}`} delay={index * 100}>
                                 <div className="group relative aspect-square overflow-hidden rounded-2xl shadow-lg bg-white hover:shadow-2xl transition-all duration-300">
                                     <img 
                                         src={photo} 
-                                        alt={`Gallery image ${index + 1}`}
+                                        alt={`Gallery image`}
+                                        loading="lazy"
                                         className="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
                                     />
                                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 </div>
                             </FadeInWhenVisible>
                         ))}
+                    </div>
+
+                    {/* Pagination */}
+                    <div className="flex justify-center items-center gap-6">
+                        <button 
+                            onClick={prevPage}
+                            disabled={currentPage === 1}
+                            className={`p-4 rounded-full bg-white/80 backdrop-blur-sm shadow-lg transition-all duration-300 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:scale-110 text-orange-500'}`}
+                        >
+                            <i data-lucide="chevron-left" className="w-6 h-6"></i>
+                        </button>
+                        
+                        <span className="text-white font-bold text-lg drop-shadow-md">
+                            Page {currentPage} of {totalPages}
+                        </span>
+
+                        <button 
+                            onClick={nextPage}
+                            disabled={currentPage === totalPages}
+                            className={`p-4 rounded-full bg-white/80 backdrop-blur-sm shadow-lg transition-all duration-300 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:scale-110 text-orange-500'}`}
+                        >
+                            <i data-lucide="chevron-right" className="w-6 h-6"></i>
+                        </button>
                     </div>
                 </div>
             );
