@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simply Amazing | Brooklyn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes move-cloud {
+            from { transform: translateX(-20vw); }
+            to { transform: translateX(120vw); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        .animate-gradient {
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        .animate-cloud {
+            animation: move-cloud linear infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-sky-400 via-blue-300 to-purple-300 animate-gradient overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // Icon components wrapper
+        const CameraIcon = () => <i data-lucide="camera" className="w-6 h-6"></i>;
+        const MountainIcon = () => <i data-lucide="mountain" className="w-6 h-6"></i>;
+        const FlowerIcon = () => <i data-lucide="flower" className="w-6 h-6"></i>;
+        const HeartIcon = () => <i data-lucide="heart" className="w-10 h-10 text-orange-500 mb-4"></i>;
+        const StarIcon = () => <i data-lucide="star" className="w-10 h-10 text-yellow-500 mb-4"></i>;
+        const SunIcon = () => <i data-lucide="sun" className="w-10 h-10 text-teal-500 mb-4"></i>;
+        const MiniSun = () => <i data-lucide="sun" className="w-4 h-4"></i>;
+
+        const Cloud = ({ className, duration, delay, top, scale, opacity = 0.6 }) => (
+            <div 
+                className={`absolute text-white ${className}`}
+                style={{ 
+                    top: `${top}%`, 
+                    left: '-20vw',
+                    animation: `move-cloud ${duration}s linear infinite`,
+                    animationDelay: `${delay}s`,
+                    transform: `scale(${scale})`,
+                    opacity: opacity
+                }}
+            >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full filter blur-sm">
+                    <path d="M17.5,19c-3.037,0-5.5-2.463-5.5-5.5c0-0.14,0.006-0.279,0.017-0.418C11.606,13.049,11.114,13,10.6,13c-2.481,0-4.5,2.019-4.5,4.5c0,0.17,0.011,0.338,0.031,0.504C6.086,17.966,6.044,17.96,6,17.96c-2.206,0-4,1.794-4,4c0,2.206,1.794,4,4,4h11.5c3.037,0,5.5-2.463,5.5-5.5S20.537,19,17.5,19z"/>
+                </svg>
+            </div>
+        );
+
+        // Scroll Reveal Component
+        const FadeInWhenVisible = ({ children, delay = 0 }) => {
+            const [isVisible, setIsVisible] = useState(false);
+            const domRef = React.useRef();
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => setIsVisible(entry.isIntersecting));
+                });
+                const currentRef = domRef.current;
+                if (currentRef) observer.observe(currentRef);
+                return () => {
+                    if (currentRef) observer.unobserve(currentRef);
+                };
+            }, []);
+
+            return (
+                <div
+                    ref={domRef}
+                    className={`transition-all duration-1000 transform ${
+                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                    }`}
+                    style={{ transitionDelay: `${delay}ms` }}
+                >
+                    {children}
+                </div>
+            );
+        };
+
+        const Home = ({ isVisible, favorites }) => (
+            <React.Fragment>
+                {/* Hero Section */}
+                <header className="relative pt-32 pb-20 px-6">
+                    <div className={`max-w-4xl mx-auto text-center transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm text-yellow-800 text-sm font-semibold mb-6 shadow-lg">
+                            <MiniSun />
+                            <span>Celebrating Brooklyn</span>
+                        </div>
+                        
+                        <h1 className="text-6xl md:text-7xl font-extrabold text-white drop-shadow-lg tracking-tight mb-6">
+                            Simply <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-orange-100 to-white">Amazing.</span>
+                        </h1>
+                        
+                        <p className="text-xl text-white/90 drop-shadow-md max-w-2xl mx-auto leading-relaxed font-medium">
+                            A digital tribute to the energy, creativity, and warmth that she brings into the world every single day.
+                        </p>
+                    </div>
+
+                    {/* Abstract Background Shapes */}
+                    <div className="absolute top-20 left-0 -z-10 w-72 h-72 bg-yellow-300 rounded-full mix-blend-overlay filter blur-3xl opacity-60 animate-blob"></div>
+                    <div className="absolute top-20 right-0 -z-10 w-72 h-72 bg-orange-300 rounded-full mix-blend-overlay filter blur-3xl opacity-60 animate-blob animation-delay-2000"></div>
+                    <div className="absolute -bottom-8 left-20 -z-10 w-72 h-72 bg-pink-300 rounded-full mix-blend-overlay filter blur-3xl opacity-60 animate-blob animation-delay-4000"></div>
+                    
+                    {/* Floating Particles */}
+                    <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-white rounded-full opacity-40 animate-float shadow-[0_0_10px_rgba(255,255,255,0.8)]"></div>
+                    <div className="absolute top-1/3 right-1/4 w-6 h-6 bg-yellow-200 rounded-full opacity-40 animate-float animation-delay-2000 shadow-[0_0_15px_rgba(255,255,0,0.5)]"></div>
+                    <div className="absolute bottom-1/4 left-1/3 w-3 h-3 bg-pink-200 rounded-full opacity-40 animate-float animation-delay-4000 shadow-[0_0_10px_rgba(255,192,203,0.5)]"></div>
+                </header>
+
+                {/* Qualities Section */}
+                <section className="py-16 bg-white/40 backdrop-blur-md shadow-xl mx-4 rounded-3xl my-8">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <div className="grid md:grid-cols-3 gap-8">
+                            <FadeInWhenVisible delay={0}>
+                                <div className="h-full p-8 rounded-2xl bg-orange-50 hover:bg-orange-100 transition duration-300 border border-orange-100 hover:shadow-xl hover:-translate-y-2 transform">
+                                    <HeartIcon />
+                                    <h3 className="text-xl font-bold mb-2">Kind Heart</h3>
+                                    <p className="text-slate-600">She has an infinite capacity for empathy and kindness that lights up every room.</p>
+                                </div>
+                            </FadeInWhenVisible>
+                            <FadeInWhenVisible delay={200}>
+                                <div className="h-full p-8 rounded-2xl bg-yellow-50 hover:bg-yellow-100 transition duration-300 border border-yellow-100 hover:shadow-xl hover:-translate-y-2 transform">
+                                    <StarIcon />
+                                    <h3 className="text-xl font-bold mb-2">Brilliant Mind</h3>
+                                    <p className="text-slate-600">Sharp, witty, and always ready with a creative solution to any problem.</p>
+                                </div>
+                            </FadeInWhenVisible>
+                            <FadeInWhenVisible delay={400}>
+                                <div className="h-full p-8 rounded-2xl bg-teal-50 hover:bg-teal-100 transition duration-300 border border-teal-100 hover:shadow-xl hover:-translate-y-2 transform">
+                                    <SunIcon />
+                                    <h3 className="text-xl font-bold mb-2">Radiant Spirit</h3>
+                                    <p className="text-slate-600">An energy that is contagious, bringing warmth to everyone around her.</p>
+                                </div>
+                            </FadeInWhenVisible>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Gallery Section */}
+                <section className="py-20 px-6">
+                    <div className="max-w-6xl mx-auto">
+                        <FadeInWhenVisible>
+                            <div className="flex items-center gap-4 mb-12">
+                                <div className="h-px bg-white/50 flex-grow"></div>
+                                <h2 className="text-3xl font-bold text-white drop-shadow-md">Her Favorite Things</h2>
+                                <div className="h-px bg-white/50 flex-grow"></div>
+                            </div>
+                        </FadeInWhenVisible>
+
+                        <div className="grid md:grid-cols-3 gap-8">
+                            {favorites.map((item, index) => (
+                                <FadeInWhenVisible key={item.id} delay={index * 200}>
+                                    <div className="group relative overflow-hidden rounded-2xl shadow-lg bg-white hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                                        <div className="h-64 overflow-hidden">
+                                            <img 
+                                                src={item.img} 
+                                                alt={item.title}
+                                                className="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                        </div>
+                                        <div className="p-6 relative">
+                                            <div className="absolute -top-8 right-6 bg-white p-3 rounded-full shadow-md text-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                                <i data-lucide={item.icon} className="w-6 h-6"></i>
+                                            </div>
+                                            <h3 className="text-xl font-bold mb-2 group-hover:text-orange-500 transition-colors">{item.title}</h3>
+                                            <p className="text-sm text-slate-500">{item.desc}</p>
+                                        </div>
+                                    </div>
+                                </FadeInWhenVisible>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            </React.Fragment>
+        );
+
+        const About = () => (
+            <div className="pt-32 pb-20 px-6 max-w-4xl mx-auto">
+                <FadeInWhenVisible>
+                    <div className="bg-white/60 backdrop-blur-md rounded-3xl p-8 shadow-xl">
+                        <div className="flex flex-col md:flex-row gap-8 items-center">
+                            <div className="w-full md:w-1/2">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80" 
+                                    alt="Brooklyn" 
+                                    className="rounded-2xl shadow-lg w-full h-auto object-cover aspect-[3/4]"
+                                />
+                            </div>
+                            <div className="w-full md:w-1/2 space-y-6">
+                                <h2 className="text-4xl font-bold text-slate-800">About Brooklyn</h2>
+                                <p className="text-lg text-slate-700 leading-relaxed">
+                                    Brooklyn is a vibrant soul who brings joy to everyone she meets. With a passion for creativity and a heart full of kindness, she navigates life with grace and enthusiasm.
+                                </p>
+                                <p className="text-lg text-slate-700 leading-relaxed">
+                                    Whether she's exploring new places, capturing beautiful moments through her lens, or simply enjoying a quiet afternoon with nature, her spirit shines bright.
+                                </p>
+                                <div className="flex gap-4 pt-4">
+                                    <div className="px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-semibold">Creative</div>
+                                    <div className="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-full text-sm font-semibold">Kind</div>
+                                    <div className="px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-semibold">Adventurous</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </FadeInWhenVisible>
+            </div>
+        );
+
+        const Gallery = () => {
+            const photos = [
+                "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=80"
+            ];
+
+            return (
+                <div className="pt-32 pb-20 px-6 max-w-6xl mx-auto">
+                    <FadeInWhenVisible>
+                        <h2 className="text-4xl font-bold text-white text-center mb-12 drop-shadow-md">Photo Gallery</h2>
+                    </FadeInWhenVisible>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {photos.map((photo, index) => (
+                            <FadeInWhenVisible key={index} delay={index * 100}>
+                                <div className="group relative aspect-square overflow-hidden rounded-2xl shadow-lg bg-white hover:shadow-2xl transition-all duration-300">
+                                    <img 
+                                        src={photo} 
+                                        alt={`Gallery image ${index + 1}`}
+                                        className="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+                                    />
+                                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                </div>
+                            </FadeInWhenVisible>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        const Contact = () => (
+            <div className="pt-32 pb-20 px-6 max-w-2xl mx-auto">
+                <FadeInWhenVisible>
+                    <div className="bg-white/60 backdrop-blur-md rounded-3xl p-8 shadow-xl text-center">
+                        <h2 className="text-4xl font-bold text-slate-800 mb-8">Get in Touch</h2>
+                        <p className="text-lg text-slate-600 mb-8">
+                            Want to say hello or collaborate on a project? Feel free to reach out!
+                        </p>
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-center gap-4 p-4 bg-white/50 rounded-xl hover:bg-white/80 transition duration-300">
+                                <div className="p-3 bg-orange-100 text-orange-600 rounded-full">
+                                    <i data-lucide="mail" className="w-6 h-6"></i>
+                                </div>
+                                <span className="text-lg font-medium text-slate-700">hello@brooklyn.com</span>
+                            </div>
+                            <div className="flex items-center justify-center gap-4 p-4 bg-white/50 rounded-xl hover:bg-white/80 transition duration-300">
+                                <div className="p-3 bg-purple-100 text-purple-600 rounded-full">
+                                    <i data-lucide="instagram" className="w-6 h-6"></i>
+                                </div>
+                                <span className="text-lg font-medium text-slate-700">@brooklyn_amazing</span>
+                            </div>
+                            <div className="flex items-center justify-center gap-4 p-4 bg-white/50 rounded-xl hover:bg-white/80 transition duration-300">
+                                <div className="p-3 bg-blue-100 text-blue-600 rounded-full">
+                                    <i data-lucide="twitter" className="w-6 h-6"></i>
+                                </div>
+                                <span className="text-lg font-medium text-slate-700">@brooklyn_tweets</span>
+                            </div>
+                        </div>
+                    </div>
+                </FadeInWhenVisible>
+            </div>
+        );
+
+        const BrooklynWebsite = () => {
+            const [isVisible, setIsVisible] = useState(false);
+            const [activeTab, setActiveTab] = useState('home');
+
+            useEffect(() => {
+                setIsVisible(true);
+                // Initialize icons after render
+                setTimeout(() => {
+                    if (window.lucide) window.lucide.createIcons();
+                }, 100);
+            }, [activeTab]);
+
+            const favorites = [
+                {
+                    id: 1,
+                    title: "Photography",
+                    icon: "camera",
+                    desc: "Capturing moments that last forever.",
+                    img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    id: 2,
+                    title: "Landscapes",
+                    icon: "mountain",
+                    desc: "Finding peace in the great wide open.",
+                    img: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    id: 3,
+                    title: "Florals",
+                    icon: "flower",
+                    desc: "Appreciating the delicate beauty of nature.",
+                    img: "https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&w=800&q=80"
+                }
+            ];
+
+            const renderContent = () => {
+                switch(activeTab) {
+                    case 'about': return <About />;
+                    case 'gallery': return <Gallery />;
+                    case 'contact': return <Contact />;
+                    default: return <Home isVisible={isVisible} favorites={favorites} />;
+                }
+            };
+
+            return (
+                <div className="min-h-screen font-sans text-slate-800 overflow-x-hidden relative">
+                    {/* Sky Background Elements */}
+                    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-20">
+                        <Cloud className="w-64 h-64" duration={45} delay={0} top={10} scale={1.5} opacity={0.8} />
+                        <Cloud className="w-48 h-48" duration={35} delay={-10} top={25} scale={1.2} opacity={0.6} />
+                        <Cloud className="w-96 h-96" duration={60} delay={-5} top={5} scale={2} opacity={0.4} />
+                        <Cloud className="w-32 h-32" duration={25} delay={-15} top={40} scale={0.8} opacity={0.5} />
+                        <Cloud className="w-56 h-56" duration={50} delay={-25} top={15} scale={1.3} opacity={0.7} />
+                        <Cloud className="w-40 h-40" duration={40} delay={-20} top={60} scale={1} opacity={0.3} />
+                    </div>
+
+                    {/* Navigation */}
+                    <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-orange-100 z-50">
+                        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+                            <div 
+                                className="flex items-center gap-2 cursor-pointer group"
+                                onClick={() => setActiveTab('home')}
+                            >
+                                <div className="p-2 bg-orange-100 rounded-full group-hover:bg-orange-200 transition-colors">
+                                    <MiniSun />
+                                </div>
+                                <span className="text-xl font-bold text-slate-800 tracking-tight group-hover:text-orange-600 transition-colors">Brooklyn</span>
+                            </div>
+                            <div className="flex space-x-6 text-sm font-medium text-slate-600">
+                                <button 
+                                    onClick={() => setActiveTab('home')}
+                                    className={`hover:text-orange-500 cursor-pointer transition ${activeTab === 'home' ? 'text-orange-500 font-bold' : ''}`}
+                                >
+                                    Home
+                                </button>
+                                <button 
+                                    onClick={() => setActiveTab('about')}
+                                    className={`hover:text-orange-500 cursor-pointer transition ${activeTab === 'about' ? 'text-orange-500 font-bold' : ''}`}
+                                >
+                                    About
+                                </button>
+                                <button 
+                                    onClick={() => setActiveTab('gallery')}
+                                    className={`hover:text-orange-500 cursor-pointer transition ${activeTab === 'gallery' ? 'text-orange-500 font-bold' : ''}`}
+                                >
+                                    Gallery
+                                </button>
+                                <button 
+                                    onClick={() => setActiveTab('contact')}
+                                    className={`hover:text-orange-500 cursor-pointer transition ${activeTab === 'contact' ? 'text-orange-500 font-bold' : ''}`}
+                                >
+                                    Contact
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
+
+                    {renderContent()}
+
+                    {/* Footer */}
+                    <footer className="bg-slate-900 text-white py-12">
+                        <div className="max-w-4xl mx-auto text-center px-6">
+                            <h2 className="text-2xl font-bold mb-6">"Keep shining, Brooklyn."</h2>
+                            <div className="flex justify-center gap-4 mb-8">
+                                <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                                <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                                <div className="w-2 h-2 rounded-full bg-teal-500"></div>
+                            </div>
+                            <p className="text-slate-500 text-sm">
+                                Designed with ❤️
+                            </p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<BrooklynWebsite />);
+    </script>
+</body>
+</html>
